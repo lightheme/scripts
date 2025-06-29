@@ -18,7 +18,7 @@ sudo mkdir /opt/xmrig
 
 sudo cp ./xmrig /opt/xmrig/xmrig
 
-sudo echo /opt/xmrig/config.json << EOF
+sudo cat <<EOL | sudo tee /opt/xmrig/config.json
 {
   "autosave": false,
   "background": false,
@@ -54,9 +54,9 @@ sudo echo /opt/xmrig/config.json << EOF
     "restricted": true
   }
 }
-EOF
+EOL
 
-sudo echo /etc/systemd/system/xmrig.service << EOF
+sudo cat <<EOL | sudo tee /etc/systemd/system/xmrig.service
 [Unit]
 Description=XMRig Daemon
 After=network.target
@@ -65,12 +65,12 @@ After=network.target
 User=root
 Group=root
 Type=simple
-ExecStart=sudo ./opt/xmrig/xmrig --config=/opt/xmrig/config.json
+ExecStart=sudo /opt/xmrig/xmrig --config=/opt/xmrig/config.json
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
-EOF
+EOL
 
 sudo systemctl daemon-reload
 sudo systemctl enable xmrig.service
